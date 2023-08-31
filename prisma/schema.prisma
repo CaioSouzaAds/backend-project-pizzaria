@@ -10,9 +10,9 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Criar uma migration: com yarn prisma migrate dev -> comando-> yarn prims migrate dev
+// Criar uma migration: com yarn prisma migrate dev -> comando-> yarn prisma migrate dev
 model User {
-  id        Int       @id @default(autoincrement())
+  id        String    @id @default(uuid()) // Usando "uuid" para gerar UUIDs
   name      String
   email     String    @unique
   password  String
@@ -20,4 +20,55 @@ model User {
   updatedAt DateTime? @default(now())
 
   @@map("users")
+}
+
+model Category {
+  id        String    @id @default(uuid())
+  name      String
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @default(now())
+  products  Product[]
+
+  @@map("categories")
+}
+
+model Product {
+  id          String    @id @default(uuid())
+  name        String
+  price       String
+  description String
+  banner      String
+  createdAt   DateTime? @default(now())
+  updatedAt   DateTime? @default(now())
+  category    Category  @relation(fields: [category_id], references: [id])
+  category_id String
+  items       Item[]
+
+  @@map("products")
+}
+
+model Order {
+  id          String    @id @default(uuid())
+  table       Int
+  status      Boolean   @default(false)
+  draft       Boolean   @default(true)
+  name_client String?
+  createdAt   DateTime? @default(now())
+  updatedAt   DateTime? @default(now())
+  items       Item[]
+
+  @@map("orders")
+}
+
+model Item {
+  id         String    @id @default(uuid())
+  amount     Int
+  createdAt  DateTime? @default(now())
+  updatedAt  DateTime? @default(now())
+  order      Order     @relation(fields: [order_id], references: [id])
+  order_id   String
+  product    Product   @relation(fields: [product_id], references: [id])
+  product_id String
+
+  @@map("items")
 }
