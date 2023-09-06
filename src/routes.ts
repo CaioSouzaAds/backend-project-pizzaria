@@ -1,28 +1,49 @@
-import { Router } from "express";
-import { CreateUserController } from "./controllers/user/CreateUserController";
-import { AuthUserController } from "./controllers/user/AuthUserController";
-import { DetailUserController } from "./controllers/user/DetailUserController";
+import { Router } from 'express';
+import multer from 'multer';
 
-import { isAuthenticated } from "./middlewares/isAuthenticated";
+import { CreateUserController } from './controllers/user/CreateUserController';
+import { AuthUserController } from './controllers/user/AuthUserController';
+import { DetailUserController } from './controllers/user/DetailUserController';
 
-import { CreatedCategoryController } from "./controllers/category/CreateCategoryController";
-import { ListCategoriesController } from "./controllers/category/ListCategoriesController";
+import { isAuthenticated } from './middlewares/isAuthenticated';
+
+import uploadConfig from './config/multer';
+
+import { CreatedCategoryController } from './controllers/category/CreateCategoryController';
+import { ListCategoriesController } from './controllers/category/ListCategoriesController';
+
+import { CreatedProductController } from './controllers/products/CreatedProductController';
 
 const router = Router();
 
+const upload = multer(uploadConfig.upload('./tmp'));
+
 // ROTAS USER -- //
-router.post("/users", new CreateUserController().handle);
+router.post('/users', new CreateUserController().handle);
 
-router.post("/session", new AuthUserController().handle);
+router.post('/session', new AuthUserController().handle);
 
-router.get("/myuser", isAuthenticated, new DetailUserController().handle);
+router.get(
+  '/myuser',
+  isAuthenticated,
+
+  new DetailUserController().handle,
+);
 
 // Routes Category --//
 router.post(
-  "/category",
+  '/category',
   isAuthenticated,
-  new CreatedCategoryController().handle
+  new CreatedCategoryController().handle,
 );
 
-router.get("/categories", new ListCategoriesController().handle);
+router.get('/categories', new ListCategoriesController().handle);
 export { router };
+
+// Routes Products
+
+router.post(
+  '/products',
+  upload.single('file'),
+  new CreatedProductController().handle,
+);
