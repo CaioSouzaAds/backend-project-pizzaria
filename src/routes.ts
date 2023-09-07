@@ -14,6 +14,7 @@ import { ListCategoriesController } from './controllers/category/ListCategoriesC
 
 import { CreatedProductController } from './controllers/products/CreatedProductController';
 import { ListProductByCategoryController } from './controllers/products/ListProductByCategoryController';
+import { CreatedOrderController } from './controllers/order/CreatedOrderController';
 
 const router = Router();
 
@@ -31,11 +32,15 @@ router.post('/category', isAuthenticated, new CreatedCategoryController().handle
 
 router.get('/categories', new ListCategoriesController().handle);
 
-// Routes Products
+// Routes Products --//
 
 router.post('/products', upload.single('file'), new CreatedProductController().handle);
 
 // List products by category
 router.get('/category/product', new ListProductByCategoryController().handle);
+
+// ROUTES ORDER --//
+
+router.post('/order', new CreatedOrderController().handle);
 
 export { router };
