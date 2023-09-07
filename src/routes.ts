@@ -13,6 +13,7 @@ import { CreatedCategoryController } from './controllers/category/CreateCategory
 import { ListCategoriesController } from './controllers/category/ListCategoriesController';
 
 import { CreatedProductController } from './controllers/products/CreatedProductController';
+import { ListProductByCategoryController } from './controllers/products/ListProductByCategoryController';
 
 const router = Router();
 
@@ -23,27 +24,18 @@ router.post('/users', new CreateUserController().handle);
 
 router.post('/session', new AuthUserController().handle);
 
-router.get(
-  '/myuser',
-  isAuthenticated,
-
-  new DetailUserController().handle,
-);
+router.get('/myuser', isAuthenticated, new DetailUserController().handle);
 
 // Routes Category --//
-router.post(
-  '/category',
-  isAuthenticated,
-  new CreatedCategoryController().handle,
-);
+router.post('/category', isAuthenticated, new CreatedCategoryController().handle);
 
 router.get('/categories', new ListCategoriesController().handle);
-export { router };
 
 // Routes Products
 
-router.post(
-  '/products',
-  upload.single('file'),
-  new CreatedProductController().handle,
-);
+router.post('/products', upload.single('file'), new CreatedProductController().handle);
+
+// List products by category
+router.get('/category/product', new ListProductByCategoryController().handle);
+
+export { router };
