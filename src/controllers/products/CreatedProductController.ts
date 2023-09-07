@@ -10,11 +10,13 @@ class CreatedProductController {
     if (!req.file) {
       throw new Error('Error UpLoad file');
     } else {
+      const { originalname, filename: banner } = req.file;
+
       const product = await createdProductService.execute({
         name,
         price,
         description,
-        banner: '',
+        banner,
         category_id,
       });
 
