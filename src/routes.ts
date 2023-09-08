@@ -14,8 +14,10 @@ import { ListCategoriesController } from './controllers/category/ListCategoriesC
 
 import { CreatedProductController } from './controllers/products/CreatedProductController';
 import { ListProductByCategoryController } from './controllers/products/ListProductByCategoryController';
+
 import { CreatedOrderController } from './controllers/order/CreatedOrderController';
 import { RemoveOrderController } from './controllers/order/RemoveOrderController';
+import { AddItemController } from './controllers/order/AddItemController';
 
 const router = Router();
 
@@ -45,5 +47,7 @@ router.get('/category/product', new ListProductByCategoryController().handle);
 router.post('/order', new CreatedOrderController().handle);
 
 router.delete('/order', new RemoveOrderController().handle);
+
+router.post('/order/add', new AddItemController().handle);
 
 export { router };
