@@ -23,6 +23,7 @@ import { RemoveItemController } from './controllers/order/RemoveItemController';
 import { SendOrderController } from './controllers/order/SendOrderController';
 import { ListOrderController } from './controllers/order/ListOrderController';
 import { DetailOrderController } from './controllers/order/DetailOrderController';
+import { FinishOrderController } from './controllers/order/FinishOrderService';
 
 const router = Router();
 
@@ -62,5 +63,7 @@ router.put('/order/send', new SendOrderController().handle);
 router.get('/orders', new ListOrderController().handle);
 
 router.get('/order/detail', new DetailOrderController().handle);
+
+router.put('/order/finish', new FinishOrderController().handle);
 
 export { router };
